@@ -4,6 +4,7 @@ abstract class AppStyleColors {
   static const Color brandPrimaryDefault = Color(0xFF2188FF);
   static const Color brandPrimaryLight = Color(0xFF63A9FF);
   static const Color brandPrimaryDark = Color(0xFF005BB5);
+
   static const Color brandSecondaryDefault = Color(0xFFFF5722);
   static const Color brandSecondaryLight = Color(0xFFFF8A50);
   static const Color brandSecondaryDark = Color(0xFFC41C00);
