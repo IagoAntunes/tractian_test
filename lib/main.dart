@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   final routes = [
     GetPage(name: '/home', page: () => const HomePage()),
-    GetPage(name: '/assets', page: () => const AssetsPage()),
+    GetPage(name: '/assets', page: () => AssetsPage()),
   ];
 
   @override
