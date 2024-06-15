@@ -5,6 +5,7 @@ import 'package:tractian_test/features/assets/external/datasources/asset_datasou
 import 'package:tractian_test/features/assets/infra/repositories/asset_repository.dart';
 import 'package:tractian_test/features/assets/presentation/controllers/asset_controller.dart';
 import 'package:tractian_test/features/assets/presentation/states/assets_page_state.dart';
+import 'package:tractian_test/features/assets/presentation/utils/filters_sensors_status.dart';
 import '../widgets/item_fitler_asset_widget.dart';
 
 class AssetsPage extends StatelessWidget {
@@ -58,30 +59,21 @@ class AssetsPage extends StatelessWidget {
                   ),
                 ),
                 Wrap(
+                  spacing: 8.0,
                   children: [
-                    Obx(
-                      () => ItemFilterAsset(
-                        text: 'Sensor de Energia',
-                        icon: Icons.bolt_outlined,
-                        onSelected: (p0) {
-                          //logica
-                        },
-                        enabled:
-                            assetsController.state.value is! LoadingAssetsState,
+                    for (var status in AssetFiltersSensors.statusList)
+                      Obx(
+                        () => ItemFilterAsset(
+                          text: status.name,
+                          icon: status.icon,
+                          onSelected: (value) => value
+                              ? assetsController.addStatusFilter(status.search)
+                              : assetsController
+                                  .removeStatusFilter(status.search),
+                          enabled: assetsController.state.value
+                              is! LoadingAssetsState,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Obx(
-                      () => ItemFilterAsset(
-                        text: 'Crítico',
-                        icon: Icons.error_outline,
-                        onSelected: (p0) {
-                          //logica
-                        },
-                        enabled:
-                            assetsController.state.value is! LoadingAssetsState,
-                      ),
-                    )
                   ],
                 ),
               ],
