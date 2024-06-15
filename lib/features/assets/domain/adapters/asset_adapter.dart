@@ -20,7 +20,7 @@ class AssetAdapter {
       parentId: map['parentId'] != null ? map['parentId'] as String : null,
       sensorType:
           map['sensorType'] != null ? map['sensorType'] as String : null,
-      status: map['status'] != null ? map['sensorType'] as String : null,
+      status: map['status'] != null ? map['status'] as String : null,
       locationId:
           map['locationId'] != null ? map['locationId'] as String : null,
       id: map['id'] as String,

@@ -102,6 +102,7 @@ class AssetRepository extends IAssetRepository {
         'locationId': asset.locationId,
         'parentId': asset.parentId,
         'sensorType': asset.sensorType,
+        'status': asset.status,
         'children': [],
       };
     }

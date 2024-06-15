@@ -12,6 +12,7 @@ class Asset {
   final String? sensorType;
   final List<Asset> children;
   final AssetType assetType;
+  final String? status;
 
   Asset({
     required this.id,
@@ -21,6 +22,7 @@ class Asset {
     this.sensorType,
     required this.children,
     required this.assetType,
+    required this.status,
   });
 
   factory Asset.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Asset {
       locationId: json['locationId'],
       parentId: json['parentId'],
       sensorType: json['sensorType'],
+      status: json['status'],
       children: (json['children'] as List)
           .map((childJson) => Asset.fromJson(childJson))
           .toList(),

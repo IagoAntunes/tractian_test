@@ -26,16 +26,11 @@ class AssetsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() => Text(
-                      assetsController.state.value.toString(),
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                    )),
                 Obx(
                   () => TextField(
                     decoration: InputDecoration(
@@ -59,36 +54,32 @@ class AssetsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 50,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Obx(
-                        () => ItemFilterAsset(
-                          text: 'Sensor de Energia',
-                          icon: Icons.bolt_outlined,
-                          onSelected: (p0) {
-                            //logica
-                          },
-                          enabled: assetsController.state.value
-                              is! LoadingAssetsState,
-                        ),
+                Wrap(
+                  children: [
+                    Obx(
+                      () => ItemFilterAsset(
+                        text: 'Sensor de Energia',
+                        icon: Icons.bolt_outlined,
+                        onSelected: (p0) {
+                          //logica
+                        },
+                        enabled:
+                            assetsController.state.value is! LoadingAssetsState,
                       ),
-                      const SizedBox(width: 8),
-                      Obx(
-                        () => ItemFilterAsset(
-                          text: 'Crítico',
-                          icon: Icons.error_outline,
-                          onSelected: (p0) {
-                            //logica
-                          },
-                          enabled: assetsController.state.value
-                              is! LoadingAssetsState,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8),
+                    Obx(
+                      () => ItemFilterAsset(
+                        text: 'Crítico',
+                        icon: Icons.error_outline,
+                        onSelected: (p0) {
+                          //logica
+                        },
+                        enabled:
+                            assetsController.state.value is! LoadingAssetsState,
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
@@ -99,15 +90,12 @@ class AssetsPage extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: ListView.builder(
-                  itemCount: assetsController.state.value.assets.length,
-                  itemBuilder: (context, index) {
-                    var asset = assetsController.state.value.assets[index];
-                    return _buildTree(asset, 0);
-                  },
-                ),
+              () => ListView.builder(
+                itemCount: assetsController.state.value.assets.length,
+                itemBuilder: (context, index) {
+                  var asset = assetsController.state.value.assets[index];
+                  return _buildTree(asset, 0);
+                },
               ),
             ),
           ),
@@ -119,7 +107,7 @@ class AssetsPage extends StatelessWidget {
   Widget _buildTree(Asset asset, int depth) {
     if (asset.children.isEmpty) {
       return Padding(
-        padding: EdgeInsets.only(left: 8.0 * depth),
+        padding: const EdgeInsets.only(left: 8.0),
         child: _buildLineTile(
           depth: depth,
           child: AssetItem(
@@ -131,7 +119,7 @@ class AssetsPage extends StatelessWidget {
       );
     }
     return Padding(
-      padding: EdgeInsets.only(left: 8.0 * depth),
+      padding: const EdgeInsets.only(left: 8.0),
       child: _buildLineTile(
         depth: depth,
         child: AssetExpansionTile(
@@ -155,19 +143,6 @@ class AssetsPage extends StatelessWidget {
       ],
     );
   }
-
-  String _getImageByType(AssetType type) {
-    switch (type) {
-      case AssetType.location:
-        return 'assets/images/location_icon.png';
-      case AssetType.component:
-        return 'assets/images/component_icon.png';
-      case AssetType.asset:
-        return 'assets/images/asset_icon.png';
-      default:
-        return 'assets/images/asset_icon.png';
-    }
-  }
 }
 
 class AssetItem extends StatelessWidget {
@@ -177,7 +152,8 @@ class AssetItem extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback? onTap;
 
-  AssetItem({
+  const AssetItem({
+    super.key,
     required this.asset,
     required this.depth,
     this.isExpandable = false,
@@ -189,8 +165,9 @@ class AssetItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
         child: Row(
           children: [
             if (isExpandable)
@@ -209,19 +186,69 @@ class AssetItem extends StatelessWidget {
               width: 24,
               height: 24,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 6),
             Expanded(
-              child: Text(
-                asset.name,
-                style: const TextStyle(
-                  color: Colors.black,
-                ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      asset.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        height: 1.22,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (asset.status != null) const SizedBox(width: 6),
+                  if (asset.status != null) _getWidgetByStatus(),
+                ],
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _getWidgetByStatus() {
+    switch (asset.status) {
+      case 'alert':
+        return const Icon(
+          Icons.circle,
+          color: Colors.red,
+          size: 12,
+        );
+      case 'energy':
+        return const Icon(
+          Icons.bolt,
+          color: Colors.green,
+          size: 12,
+        );
+      default:
+        return _getWidgetBySensorType();
+    }
+  }
+
+  Widget _getWidgetBySensorType() {
+    switch (asset.sensorType) {
+      case 'energy':
+        return const Icon(
+          Icons.bolt,
+          color: Colors.green,
+          size: 18,
+        );
+      case 'vibration':
+        return const Icon(
+          Icons.vibration,
+          color: Colors.green,
+          size: 18,
+        );
+      default:
+        return const Icon(Icons.circle, color: Colors.grey);
+    }
   }
 
   String _getImageByType(AssetType type) {
@@ -244,12 +271,14 @@ class AssetExpansionTile extends StatefulWidget {
   final Widget Function(Asset) childBuilder;
 
   const AssetExpansionTile({
+    super.key,
     required this.asset,
     required this.depth,
     required this.childBuilder,
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _AssetExpansionTileState createState() => _AssetExpansionTileState();
 }
 
@@ -292,9 +321,8 @@ class LinePainter extends CustomPainter {
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
-    // Desenhar linhas verticais
     if (depth > 0) {
-      double x = 8.0 * (0.5); // Ajustar o deslocamento conforme necessário
+      double x = 8.0 * (0.5);
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
   }
