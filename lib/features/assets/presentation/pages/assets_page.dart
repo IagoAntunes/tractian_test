@@ -33,6 +33,9 @@ class AssetsPage extends StatelessWidget {
               children: [
                 Obx(
                   () => TextField(
+                    onChanged: (value) {
+                      assetsController.filterByText(value);
+                    },
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
                         Icons.search,

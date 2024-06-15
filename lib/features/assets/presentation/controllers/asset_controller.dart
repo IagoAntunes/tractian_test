@@ -12,7 +12,7 @@ class AssetController extends GetxController {
   }
   final IAssetRepository _assetRepository;
 
-  RxList<Asset> assets = RxList([]);
+  List<Asset> assets = [];
   var state = Rx<IAssetsState>(IdleAssetsState(assets: []));
 
   Future<void> getData() async {
@@ -23,5 +23,31 @@ class AssetController extends GetxController {
         .toList();
     assets.addAll(list);
     state.value = SuccessAssetsState(assets: assets);
+  }
+
+  void filterByText(String query) {
+    if (query.isEmpty) {
+      state.value = SuccessAssetsState(assets: assets);
+    } else {
+      List<Asset> filteredAssets = [];
+      for (Asset asset in assets) {
+        if (_assetContainsQuery(asset, query)) {
+          filteredAssets.add(asset);
+        }
+      }
+      state.value = SuccessAssetsState(assets: filteredAssets);
+    }
+  }
+
+  bool _assetContainsQuery(Asset asset, String query) {
+    if (asset.name.toLowerCase().contains(query.toLowerCase())) {
+      return true;
+    }
+    for (Asset child in asset.children) {
+      if (_assetContainsQuery(child, query)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

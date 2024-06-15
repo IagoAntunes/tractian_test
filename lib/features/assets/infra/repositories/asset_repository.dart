@@ -83,14 +83,14 @@ class AssetRepository extends IAssetRepository {
     GetAssetsResponse assetsResponse = resultsData[0] as GetAssetsResponse;
     GetLocalizationsResponse localizationsResponse =
         resultsData[1] as GetLocalizationsResponse;
-    //var locationsTree = agroupLocations(localizationsResponse);
-    var result = agroupAssets(assetsResponse, localizationsResponse);
+    //var locationsTree = groupLocation(localizationsResponse);
+    var result = groupAssets(assetsResponse, localizationsResponse);
     return GetDataResponse(
       listAssets: result,
     );
   }
 
-  List<Map<String, dynamic>> agroupAssets(GetAssetsResponse assetsResponse,
+  List<Map<String, dynamic>> groupAssets(GetAssetsResponse assetsResponse,
       GetLocalizationsResponse localizationsResponse) {
     Map<String, Map<String, dynamic>> assetsMap = {};
     Map<String, Map<String, dynamic>> locationsMap = {};
@@ -152,7 +152,7 @@ class AssetRepository extends IAssetRepository {
     return tree;
   }
 
-  List<Map<String, dynamic>> agroupLocations(
+  List<Map<String, dynamic>> groupLocation(
       GetLocalizationsResponse localizationsResponse) {
     Map<String, Map<String, dynamic>> locationsMap = {};
 
