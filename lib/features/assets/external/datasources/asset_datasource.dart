@@ -1,12 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:tractian_test/core/services/http/i_http_service.dart';
 import 'package:tractian_test/core/utils/app_api_routes.dart';
 import 'package:tractian_test/features/assets/infra/datasources/i_asset_datasource.dart';
 
 import '../../../../core/utils/base_api_response.dart';
 
 class AssetDataSource extends IAssetDataSource {
+  AssetDataSource({required IHttpService httpService})
+      : _httpService = httpService;
+  // ignore: unused_field
+  IHttpService _httpService;
   @override
   Future<BaseApiResponse> getAssets() async {
     try {
@@ -17,7 +22,6 @@ class AssetDataSource extends IAssetDataSource {
         data: data,
       );
     } catch (e) {
-      print('Error loading JSON: $e');
       return BaseApiResponse.failure(data: e);
     }
   }
@@ -32,7 +36,6 @@ class AssetDataSource extends IAssetDataSource {
         data: data,
       );
     } catch (e) {
-      print('Error loading JSON: $e');
       return BaseApiResponse.failure(data: e);
     }
   }

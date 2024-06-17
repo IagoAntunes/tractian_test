@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian_test/core/widgets/c_text_field.dart';
 import 'package:tractian_test/features/assets/domain/entities/asset_entity.dart';
-import 'package:tractian_test/features/assets/external/datasources/asset_datasource.dart';
-import 'package:tractian_test/features/assets/infra/repositories/asset_repository.dart';
 import 'package:tractian_test/features/assets/presentation/controllers/asset_controller.dart';
 import 'package:tractian_test/features/assets/presentation/states/assets_page_state.dart';
 import 'package:tractian_test/features/assets/presentation/utils/filters_sensors_status.dart';
@@ -16,11 +14,7 @@ import '../widgets/line_painter_tree.dart';
 class AssetsPage extends StatelessWidget {
   AssetsPage({super.key});
 
-  final assetsController = AssetController(
-    assetRepository: AssetRepository(
-      dataSource: AssetDataSource(),
-    ),
-  );
+  final assetsController = Get.find<AssetController>();
 
   final searchController = TextEditingController();
 
