@@ -5,6 +5,8 @@ import 'package:tractian_test/features/assets/domain/adapters/localization_adapt
 import 'package:tractian_test/features/assets/domain/models/asset_model.dart';
 import 'package:tractian_test/features/assets/domain/models/localization_model.dart';
 import 'package:tractian_test/features/assets/domain/repositories/i_asset_repository.dart';
+import 'package:tractian_test/features/assets/domain/requests/get_assets_data_request.dart';
+import 'package:tractian_test/features/assets/domain/requests/get_locations_request.dart';
 import 'package:tractian_test/features/assets/domain/responses/get_data_response.dart';
 import 'package:tractian_test/features/assets/domain/responses/get_localizations_response.dart';
 import 'package:tractian_test/features/assets/infra/datasources/i_asset_datasource.dart';
@@ -17,8 +19,9 @@ class AssetRepository extends IAssetRepository {
   });
   final IAssetDataSource dataSource;
   @override
-  Future<GetAssetsResponse> getAssets() async {
-    final result = await dataSource.getAssets();
+  Future<GetAssetsResponse> getAssets(String nameUnit) async {
+    final result =
+        await dataSource.getAssets(GetAssetsRequest(nameUnit: nameUnit));
     late GetAssetsResponse response;
     List<AssetModel> listAssets = [];
 
@@ -46,8 +49,9 @@ class AssetRepository extends IAssetRepository {
   }
 
   @override
-  Future<GetLocalizationsResponse> getLocalizations() async {
-    final result = await dataSource.getLocalizations();
+  Future<GetLocalizationsResponse> getLocalizations(String nameUnit) async {
+    final result = await dataSource
+        .getLocalizations(GetLocationsRequest(nameUnit: nameUnit));
     late GetLocalizationsResponse response;
     List<LocalizationModel> listAssets = [];
 
@@ -75,10 +79,10 @@ class AssetRepository extends IAssetRepository {
   }
 
   @override
-  Future<GetDataResponse> getData() async {
+  Future<GetDataResponse> getData(String nameUnit) async {
     var resultsData = await Future.wait([
-      getAssets(),
-      getLocalizations(),
+      getAssets(nameUnit),
+      getLocalizations(nameUnit),
     ]);
     GetAssetsResponse assetsResponse = resultsData[0] as GetAssetsResponse;
     GetLocalizationsResponse localizationsResponse =
@@ -128,7 +132,6 @@ class AssetRepository extends IAssetRepository {
       }
     }
 
-    // Adicione localizações filhas às localizações pais
     for (var local in localizationsResponse.listLocalizations) {
       if (local.parentId != null) {
         var parentLocation = locationsMap[local.parentId];
@@ -138,7 +141,6 @@ class AssetRepository extends IAssetRepository {
       }
     }
 
-    // Filtrar apenas os ativos e localizações de nível superior
     List<Map<String, dynamic>> treeAssets = assetsMap.values
         .where(
             (asset) => asset['parentId'] == null && asset['locationId'] == null)

@@ -1,7 +1,8 @@
 abstract class AppApiRoutes {
   static const String _baseUrl = 'assets/mock/';
 
-  static String getAssetsUrl() => '${_baseUrl}tobias_unit/assets.json';
-  static String getLocalizationsUrl() =>
-      '${_baseUrl}tobias_unit/locations.json';
+  static String getAssetsUrl(String nameUnit) =>
+      '$_baseUrl$nameUnit/assets.json';
+  static String getLocalizationsUrl(String nameUnit) =>
+      '$_baseUrl$nameUnit/locations.json';
 }

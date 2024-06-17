@@ -42,7 +42,7 @@ class Asset {
   static AssetType _getTypeFromJson(Map<String, dynamic> json) {
     if (json['sensorType'] != null) {
       return AssetType.component;
-    } else if (json['locationId'] != null) {
+    } else if (json.containsKey('sensorType') & json.containsKey('status')) {
       return AssetType.asset;
     } else {
       return AssetType.location;

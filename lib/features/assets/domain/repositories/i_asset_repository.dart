@@ -4,7 +4,7 @@ import '../responses/get_data_response.dart';
 import '../responses/get_localizations_response.dart';
 
 abstract class IAssetRepository {
-  Future<GetAssetsResponse> getAssets();
-  Future<GetLocalizationsResponse> getLocalizations();
-  Future<GetDataResponse> getData();
+  Future<GetAssetsResponse> getAssets(String nameUnit);
+  Future<GetLocalizationsResponse> getLocalizations(String nameUnit);
+  Future<GetDataResponse> getData(String nameUnit);
 }

@@ -68,8 +68,9 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 16),
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
-                      Get.toNamed('/assets',
-                          arguments: {'unit': 'Jaguar Unit'});
+                      Get.toNamed('/assets', arguments: {
+                        'unit': homeController.state.value.unities[index]
+                      });
                     },
                     child: Container(
                       width: double.infinity,

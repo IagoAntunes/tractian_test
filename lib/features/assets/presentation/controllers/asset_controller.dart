@@ -7,11 +7,9 @@ import '../../domain/entities/asset_entity.dart';
 class AssetController extends GetxController {
   AssetController({
     required IAssetRepository assetRepository,
-  }) : _assetRepository = assetRepository {
-    getData();
-  }
+  }) : _assetRepository = assetRepository;
   final IAssetRepository _assetRepository;
-
+  String? nameUnit;
   List<Asset> assets = [];
   var state = Rx<IAssetsState>(IdleAssetsState(assets: []));
 
@@ -19,7 +17,7 @@ class AssetController extends GetxController {
   final RxSet<String> selectedFilters = RxSet<String>();
   Future<void> getData() async {
     state.value = LoadingAssetsState(assets: state.value.assets);
-    final result = await _assetRepository.getData();
+    final result = await _assetRepository.getData(nameUnit ?? '');
     var list = result.listAssets
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();

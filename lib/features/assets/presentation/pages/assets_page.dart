@@ -12,20 +12,39 @@ import '../widgets/asset_expansion_tile_widget.dart';
 import '../widgets/item_fitler_asset_widget.dart';
 import '../widgets/line_painter_tree.dart';
 
-class AssetsPage extends StatelessWidget {
+class AssetsPage extends StatefulWidget {
   AssetsPage({super.key});
 
-  final assetsController = Get.find<AssetController>();
+  @override
+  State<AssetsPage> createState() => _AssetsPageState();
+}
 
+class _AssetsPageState extends State<AssetsPage> {
+  final assetsController = Get.find<AssetController>();
   final searchController = TextEditingController();
 
   final Map<String, dynamic> arguments = Get.arguments;
+  @override
+  void initState() {
+    super.initState();
+    assetsController.nameUnit = arguments['unit'];
+    assetsController.getData();
+  }
+
+  String _formatUnitName(String unitName) {
+    List<String> parts = unitName.split('_');
+    List<String> formattedParts = parts.map((part) {
+      if (part.isEmpty) return part;
+      return part[0].toUpperCase() + part.substring(1).toLowerCase();
+    }).toList();
+    return formattedParts.join(' ');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Assets"),
+        title: Text(" ${_formatUnitName(assetsController.nameUnit!)} - Assets"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +121,7 @@ class AssetsPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Refaça os fitlros e tente novamente",
+                            "Refaça os filtros e tente novamente",
                             style: AppStyleText.regularSm.copyWith(
                               color: Colors.black,
                             ),
