@@ -11,7 +11,7 @@ class AssetDataSource extends IAssetDataSource {
   AssetDataSource({required IHttpService httpService})
       : _httpService = httpService;
   // ignore: unused_field
-  IHttpService _httpService;
+  final IHttpService _httpService;
   @override
   Future<BaseApiResponse> getAssets() async {
     try {
