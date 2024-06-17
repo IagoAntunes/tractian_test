@@ -65,7 +65,10 @@ flutter:
     - assets/images/
     - assets/mock/jaguar_unit/assets.json
     - assets/mock/jaguar_unit/locations.json
-
+    - assets/mock/apex_unit/assets.json
+    - assets/mock/apex_unit/locations.json
+    - assets/mock/tobias_unit/assets.json
+    - assets/mock/tobias_unit/locations.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

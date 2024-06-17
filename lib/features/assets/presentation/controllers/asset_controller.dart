@@ -76,7 +76,6 @@ class AssetController extends GetxController {
         return true;
       }).toList();
     }
-
     state.value = SuccessAssetsState(assets: filteredAssets);
   }
 

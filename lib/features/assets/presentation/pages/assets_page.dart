@@ -7,6 +7,7 @@ import 'package:tractian_test/features/assets/presentation/states/assets_page_st
 import 'package:tractian_test/features/assets/presentation/utils/filters_sensors_status.dart';
 import 'package:tractian_test/features/assets/presentation/widgets/asset_item.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
+import 'package:tractian_test/settings/style/app_style_text.dart';
 import '../widgets/asset_expansion_tile_widget.dart';
 import '../widgets/item_fitler_asset_widget.dart';
 import '../widgets/line_painter_tree.dart';
@@ -17,6 +18,8 @@ class AssetsPage extends StatelessWidget {
   final assetsController = Get.find<AssetController>();
 
   final searchController = TextEditingController();
+
+  final Map<String, dynamic> arguments = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +85,38 @@ class AssetsPage extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                itemCount: assetsController.state.value.assets.length,
-                itemBuilder: (context, index) {
-                  var asset = assetsController.state.value.assets[index];
-                  return _buildTree(asset, 0);
-                },
-              ),
+              () => assetsController.state.value.assets.isEmpty
+                  ? SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.filter_list,
+                            size: 48,
+                          ),
+                          Text(
+                            "Nenhum ativo encontrado",
+                            style: AppStyleText.mediumLg.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Refaça os fitlros e tente novamente",
+                            style: AppStyleText.regularSm.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: assetsController.state.value.assets.length,
+                      itemBuilder: (context, index) {
+                        var asset = assetsController.state.value.assets[index];
+                        return _buildTree(asset, 0);
+                      },
+                    ),
             ),
           ),
         ],
