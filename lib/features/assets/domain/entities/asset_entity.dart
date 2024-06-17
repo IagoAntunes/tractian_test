@@ -10,7 +10,7 @@ class Asset {
   final String? locationId;
   final String? parentId;
   final String? sensorType;
-  final List<Asset> children;
+  List<Asset> children;
   final AssetType assetType;
   final String? status;
 
@@ -24,6 +24,17 @@ class Asset {
     required this.assetType,
     required this.status,
   });
+
+  Asset.clone(Asset original)
+      : assetType = original.assetType,
+        id = original.id,
+        locationId = original.locationId,
+        parentId = original.parentId,
+        name = original.name,
+        status = original.status,
+        sensorType = original.sensorType,
+        children =
+            List.from(original.children.map((child) => Asset.clone(child)));
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(

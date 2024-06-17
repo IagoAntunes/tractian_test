@@ -11,17 +11,20 @@ class AssetController extends GetxController {
   final IAssetRepository _assetRepository;
   String? nameUnit;
   List<Asset> assets = [];
+  List<Asset> originalAssets = [];
   var state = Rx<IAssetsState>(IdleAssetsState(assets: []));
 
   List<String> assetStatusFilter = [];
   final RxSet<String> selectedFilters = RxSet<String>();
+
   Future<void> getData() async {
     state.value = LoadingAssetsState(assets: state.value.assets);
     final result = await _assetRepository.getData(nameUnit ?? '');
     var list = result.listAssets
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();
-    assets.addAll(list);
+    assets = List.from(list);
+    originalAssets = List.from(assets.map((asset) => Asset.clone(asset)));
     state.value = SuccessAssetsState(assets: assets);
   }
 
@@ -45,10 +48,13 @@ class AssetController extends GetxController {
   }
 
   void applyFilters() {
-    List<Asset> filteredAssets = assets;
+    List<Asset> filteredAssets =
+        List.from(originalAssets.map((asset) => Asset.clone(asset)));
 
     if (selectedFilters.isEmpty) {
-      state.value = SuccessAssetsState(assets: assets);
+      state.value = SuccessAssetsState(
+          assets: List.from(originalAssets.map((asset) => Asset.clone(asset))));
+      return;
     }
 
     if (selectedFilters.isNotEmpty) {
@@ -56,17 +62,14 @@ class AssetController extends GetxController {
         for (String filter in selectedFilters) {
           var typeFilter = filter.split('_');
           if (typeFilter[0] == 'status') {
-            if (!_assetContainsQuery(
-              asset,
-              typeFilter[1],
-              filterBy: ['status', 'sensorType'],
-            )) {
+            if (!_assetContainsQuery(asset, typeFilter[1],
+                filterBy: ['status', 'sensorType'], shouldPrune: true)) {
               return false;
             }
           }
           if (typeFilter[0] == 'text') {
-            if (!_assetContainsQuery(asset, typeFilter[1],
-                filterBy: ['name'])) {
+            if (!_assetContainsQueryText(asset, typeFilter[1],
+                filterBy: ['name'], shouldPrune: true)) {
               return false;
             }
           }
@@ -74,64 +77,91 @@ class AssetController extends GetxController {
         return true;
       }).toList();
     }
-    state.value = SuccessAssetsState(assets: filteredAssets);
-  }
 
-  List<Asset> filterByStatus(String status) {
-    List<Asset> filteredAssets = [];
-    for (Asset asset in assets) {
-      if (_assetContainsQuery(
-        asset,
-        status,
-        filterBy: ['status', 'sensorType'],
-      )) {
-        filteredAssets.add(asset);
-      }
-    }
-    return filteredAssets;
+    state.value = SuccessAssetsState(assets: filteredAssets);
   }
 
   void filterByText(String query) {
     if (query.isEmpty) {
-      selectedFilters.removeWhere(
-        (filter) => filter.startsWith('text_'),
-      );
+      selectedFilters.removeWhere((filter) => filter.startsWith('text_'));
       applyFilters();
     } else {
+      selectedFilters.removeWhere((filter) => filter.startsWith('text_'));
       selectedFilters.add('text_$query');
-      List<Asset> filteredAssets = [];
-      for (Asset asset in state.value.assets) {
-        if (_assetContainsQuery(asset, query, filterBy: ['name'])) {
-          filteredAssets.add(asset);
-        }
-      }
-      state.value = SuccessAssetsState(assets: filteredAssets);
+      applyFilters();
     }
   }
 
-  bool _assetContainsQuery(Asset asset, String query,
-      {List<String>? filterBy}) {
+  bool _assetContainsQueryText(Asset asset, String query,
+      {List<String>? filterBy, bool shouldPrune = false}) {
     query = query.toLowerCase();
+
+    bool containsQuery = false;
+    bool shouldKeep = false;
 
     for (String filter in filterBy ?? []) {
       if (filter == 'name' && asset.name.toLowerCase().contains(query)) {
-        return true;
+        containsQuery = true;
+        shouldKeep = true;
+      }
+    }
+
+    List<Asset> matchingChildren = [];
+    for (Asset child in asset.children) {
+      if (_assetContainsQueryText(child, query,
+          filterBy: filterBy, shouldPrune: shouldPrune)) {
+        matchingChildren.add(child);
+      }
+    }
+
+    if (matchingChildren.isNotEmpty) {
+      containsQuery = true;
+      if (shouldPrune) {
+        asset.children = matchingChildren;
+      }
+    }
+
+    return shouldKeep || (shouldPrune && containsQuery);
+  }
+
+  bool _assetContainsQuery(Asset asset, String query,
+      {List<String>? filterBy, bool shouldPrune = false}) {
+    query = query.toLowerCase();
+
+    bool containsQuery = false;
+    bool shouldKeep = false;
+
+    for (String filter in filterBy ?? []) {
+      if (filter == 'name' && asset.name.toLowerCase().contains(query)) {
+        containsQuery = true;
+        shouldKeep = true;
       }
       if (filter == 'status' &&
           (asset.status?.toLowerCase().contains(query) ?? false)) {
-        return true;
+        containsQuery = true;
+        shouldKeep = true;
       } else if (filter == 'sensorType' &&
           (asset.sensorType?.toLowerCase().contains(query) ?? false)) {
-        return true;
+        containsQuery = true;
+        shouldKeep = true;
       }
     }
 
+    List<Asset> matchingChildren = [];
     for (Asset child in asset.children) {
-      if (_assetContainsQuery(child, query, filterBy: filterBy)) {
-        return true;
+      if (_assetContainsQuery(child, query,
+          filterBy: filterBy, shouldPrune: shouldPrune)) {
+        matchingChildren.add(child);
       }
     }
 
-    return false;
+    if (matchingChildren.isNotEmpty) {
+      containsQuery = true;
+      if (shouldPrune) {
+        asset.children = matchingChildren;
+      }
+    }
+
+    return shouldKeep || (shouldPrune && containsQuery);
   }
 }

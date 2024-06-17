@@ -13,7 +13,7 @@ import '../widgets/item_fitler_asset_widget.dart';
 import '../widgets/line_painter_tree.dart';
 
 class AssetsPage extends StatefulWidget {
-  AssetsPage({super.key});
+  const AssetsPage({super.key});
 
   @override
   State<AssetsPage> createState() => _AssetsPageState();

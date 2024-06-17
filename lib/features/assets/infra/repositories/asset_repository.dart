@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:tractian_test/features/assets/domain/adapters/asset_adapter.dart';
 import 'package:tractian_test/features/assets/domain/adapters/localization_adapter.dart';
 import 'package:tractian_test/features/assets/domain/models/asset_model.dart';
@@ -150,7 +148,6 @@ class AssetRepository extends IAssetRepository {
         .toList();
 
     List<Map<String, dynamic>> tree = [...treeAssets, ...treeLocations];
-    log(tree.toString());
     return tree;
   }
 

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     ),
     GetPage(
       name: '/assets',
-      page: () => AssetsPage(),
+      page: () => const AssetsPage(),
       binding: AssetsBinding(),
     ),
   ];
