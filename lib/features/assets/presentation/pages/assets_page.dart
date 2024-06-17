@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:tractian_test/core/widgets/c_text_field.dart';
 import 'package:tractian_test/features/assets/domain/entities/asset_entity.dart';
 import 'package:tractian_test/features/assets/presentation/controllers/asset_controller.dart';
@@ -104,38 +105,44 @@ class _AssetsPageState extends State<AssetsPage> {
           ),
           Expanded(
             child: Obx(
-              () => assetsController.state.value.assets.isEmpty
-                  ? SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.filter_list,
-                            size: 48,
+              () => switch (assetsController.state.value) {
+                LoadingAssetsState() => _buildLoadingTree(0),
+                SuccessAssetsState() =>
+                  assetsController.state.value.assets.isEmpty
+                      ? SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.filter_list,
+                                size: 48,
+                              ),
+                              Text(
+                                "Nenhum ativo encontrado",
+                                style: AppStyleText.mediumLg.copyWith(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                "Refaça os filtros e tente novamente",
+                                style: AppStyleText.regularSm.copyWith(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Nenhum ativo encontrado",
-                            style: AppStyleText.mediumLg.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "Refaça os filtros e tente novamente",
-                            style: AppStyleText.regularSm.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: assetsController.state.value.assets.length,
-                      itemBuilder: (context, index) {
-                        var asset = assetsController.state.value.assets[index];
-                        return _buildTree(asset, 0);
-                      },
-                    ),
+                        )
+                      : ListView.builder(
+                          itemCount: assetsController.state.value.assets.length,
+                          itemBuilder: (context, index) {
+                            var asset =
+                                assetsController.state.value.assets[index];
+                            return _buildTree(asset, 0);
+                          },
+                        ),
+                _ => _buildLoadingTree(0),
+              },
             ),
           ),
         ],
@@ -144,6 +151,10 @@ class _AssetsPageState extends State<AssetsPage> {
   }
 
   Widget _buildTree(Asset asset, int depth) {
+    if (assetsController.state is LoadingAssetsState) {
+      return _buildLoadingTree(depth);
+    }
+
     if (asset.children.isEmpty) {
       return Padding(
         padding: const EdgeInsets.only(left: 8.0),
@@ -180,6 +191,35 @@ class _AssetsPageState extends State<AssetsPage> {
         ),
         child,
       ],
+    );
+  }
+
+  Widget _buildLoadingTree(int depth) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: _buildLineTile(
+        depth: depth,
+        child: Shimmer.fromColors(
+          baseColor: AppStyleColors.gray200,
+          highlightColor: AppStyleColors.gray100,
+          child: Column(
+            children: List.generate(
+              3,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppStyleColors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  width: double.infinity,
+                  height: 25.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
