@@ -10,7 +10,6 @@ class AssetController extends GetxController {
   }) : _assetRepository = assetRepository;
   final IAssetRepository _assetRepository;
   String? nameUnit;
-  List<Asset> assets = [];
   List<Asset> originalAssets = [];
   var state = Rx<IAssetsState>(IdleAssetsState(assets: []));
 
@@ -23,9 +22,8 @@ class AssetController extends GetxController {
     var list = result.listAssets
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();
-    assets = List.from(list);
-    originalAssets = List.from(assets.map((asset) => Asset.clone(asset)));
-    state.value = SuccessAssetsState(assets: assets);
+    originalAssets = List.from(list);
+    state.value = SuccessAssetsState(assets: originalAssets);
   }
 
   void onFilterChipSelected(String filter) {
@@ -48,15 +46,12 @@ class AssetController extends GetxController {
   }
 
   void applyFilters() {
-    List<Asset> filteredAssets =
-        List.from(originalAssets.map((asset) => Asset.clone(asset)));
-
     if (selectedFilters.isEmpty) {
-      state.value = SuccessAssetsState(
-          assets: List.from(originalAssets.map((asset) => Asset.clone(asset))));
+      state.value = SuccessAssetsState(assets: originalAssets);
       return;
     }
-
+    List<Asset> filteredAssets =
+        List.from(originalAssets.map((asset) => Asset.clone(asset)));
     if (selectedFilters.isNotEmpty) {
       filteredAssets = filteredAssets.where((asset) {
         for (String filter in selectedFilters) {
