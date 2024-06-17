@@ -49,21 +49,31 @@ class AssetController extends GetxController {
   void applyFilters() {
     List<Asset> filteredAssets = assets;
 
+    if (selectedFilters.isEmpty) {
+      state.value = SuccessAssetsState(assets: assets);
+    }
+
     if (selectedFilters.isNotEmpty) {
       filteredAssets = filteredAssets.where((asset) {
         for (String filter in selectedFilters) {
           var typeFilter = filter.split('_');
           if (typeFilter[0] == 'status') {
-            if (_assetContainsQuery(
+            if (!_assetContainsQuery(
               asset,
               typeFilter[1],
               filterBy: ['status', 'sensorType'],
             )) {
-              return true;
+              return false;
+            }
+          }
+          if (typeFilter[0] == 'text') {
+            if (!_assetContainsQuery(asset, typeFilter[1],
+                filterBy: ['name'])) {
+              return false;
             }
           }
         }
-        return false;
+        return true;
       }).toList();
     }
 
@@ -86,10 +96,14 @@ class AssetController extends GetxController {
 
   void filterByText(String query) {
     if (query.isEmpty) {
-      state.value = SuccessAssetsState(assets: assets);
+      selectedFilters.removeWhere(
+        (filter) => filter.startsWith('text_'),
+      );
+      applyFilters();
     } else {
+      selectedFilters.add('text_$query');
       List<Asset> filteredAssets = [];
-      for (Asset asset in assets) {
+      for (Asset asset in state.value.assets) {
         if (_assetContainsQuery(asset, query, filterBy: ['name'])) {
           filteredAssets.add(asset);
         }

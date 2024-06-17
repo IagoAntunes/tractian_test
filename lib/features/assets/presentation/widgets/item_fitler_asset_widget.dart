@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
+import 'package:tractian_test/settings/style/app_style_text.dart';
 
 enum ItemFilterAssetState {
   selected,
@@ -59,26 +60,23 @@ class _ItemFilterAssetState extends State<ItemFilterAsset> {
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
-        side: const BorderSide(
-          color: Color(0xffD8DFE6),
+        side: BorderSide(
+          color: AppStyleColors.gray200,
         ),
       ),
       showCheckmark: false,
       avatar: Icon(
         widget.icon,
         color: state == ItemFilterAssetState.selected
-            ? Colors.white
-            : const Color(0xff77818C),
+            ? AppStyleColors.white
+            : AppStyleColors.bodyText2,
       ),
       label: Text(
         widget.text,
-        style: TextStyle(
+        style: AppStyleText.mediumSm.copyWith(
           color: state == ItemFilterAssetState.selected
-              ? Colors.white
-              : const Color(0XFF77818C),
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-          height: 1.20,
+              ? AppStyleColors.white
+              : AppStyleColors.bodyText2,
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
+import 'package:tractian_test/settings/style/app_style_text.dart';
 
 class AppThemes {
   static ThemeData lightTheme = ThemeData(
@@ -8,9 +9,10 @@ class AppThemes {
     useMaterial3: true,
     scaffoldBackgroundColor: AppStyleColors.backgroundColorLight,
     appBarTheme: AppBarTheme(
+      titleTextStyle: AppStyleText.regularLg,
       centerTitle: true,
       elevation: 0,
-      backgroundColor: AppStyleColors.blueDark,
+      backgroundColor: AppStyleColors.platformHeader,
       actionsIconTheme:
           const IconThemeData(color: AppStyleColors.onPrimaryLight),
       iconTheme: const IconThemeData(color: AppStyleColors.onPrimaryLight),
@@ -41,7 +43,7 @@ class AppThemes {
     appBarTheme: AppBarTheme(
       centerTitle: true,
       elevation: 0,
-      backgroundColor: AppStyleColors.transparent,
+      backgroundColor: AppStyleColors.platformHeader,
       actionsIconTheme:
           const IconThemeData(color: AppStyleColors.onPrimaryDark),
       iconTheme: const IconThemeData(color: AppStyleColors.onPrimaryDark),

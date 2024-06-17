@@ -9,7 +9,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppStyleColors.blueDark,
         title: Image.asset(
           'assets/images/tractian_logo.png',
           width: 160,
@@ -69,15 +68,15 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   color: AppStyleColors.brandPrimaryDefault,
                 ),
-                child: const ListTile(
+                child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Icon(
+                    backgroundColor: AppStyleColors.white,
+                    child: const Icon(
                       Icons.factory,
                       color: AppStyleColors.brandPrimaryDefault,
                     ),
                   ),
-                  trailing: Icon(Icons.arrow_right),
+                  trailing: const Icon(Icons.arrow_right),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -86,7 +85,7 @@ class HomePage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                          color: AppStyleColors.white,
                         ),
                       ),
                     ],
