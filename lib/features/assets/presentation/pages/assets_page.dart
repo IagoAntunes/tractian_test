@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:tractian_test/core/widgets/c_text_field.dart';
 import 'package:tractian_test/features/assets/domain/entities/asset_entity.dart';
 import 'package:tractian_test/features/assets/presentation/controllers/asset_controller.dart';
+import 'package:tractian_test/features/assets/presentation/pages/qr_code_page.dart';
 import 'package:tractian_test/features/assets/presentation/states/assets_page_state.dart';
 import 'package:tractian_test/features/assets/presentation/utils/filters_sensors_status.dart';
 import 'package:tractian_test/features/assets/presentation/widgets/asset_item.dart';
@@ -46,6 +47,19 @@ class _AssetsPageState extends State<AssetsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(" ${_formatUnitName(assetsController.nameUnit!)} - Assets"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(const QrCodeView())?.then((value) {
+                if (value != null) {
+                  searchController.text = value;
+                  assetsController.filterByText(value);
+                }
+              });
+            },
+            icon: const Icon(Icons.qr_code),
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,40 +121,47 @@ class _AssetsPageState extends State<AssetsPage> {
             child: Obx(
               () => switch (assetsController.state.value) {
                 LoadingAssetsState() => _buildLoadingTree(0),
-                SuccessAssetsState() =>
-                  assetsController.state.value.assets.isEmpty
-                      ? SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.filter_list,
-                                size: 48,
+                SuccessAssetsState() => assetsController
+                        .state.value.assets.isEmpty
+                    ? SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.filter_list,
+                              size: 48,
+                            ),
+                            Text(
+                              "Nenhum ativo encontrado",
+                              style: AppStyleText.mediumLg.copyWith(
+                                color: Colors.black,
                               ),
-                              Text(
-                                "Nenhum ativo encontrado",
-                                style: AppStyleText.mediumLg.copyWith(
-                                  color: Colors.black,
-                                ),
+                            ),
+                            Text(
+                              "Refaça os filtros e tente novamente",
+                              style: AppStyleText.regularSm.copyWith(
+                                color: Colors.black,
                               ),
-                              Text(
-                                "Refaça os filtros e tente novamente",
-                                style: AppStyleText.regularSm.copyWith(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: assetsController.state.value.assets.length,
-                          itemBuilder: (context, index) {
-                            var asset =
-                                assetsController.state.value.assets[index];
-                            return _buildTree(asset, 0);
-                          },
+                            ),
+                          ],
                         ),
+                      )
+                    : CustomScrollView(
+                        slivers: [
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                var asset =
+                                    assetsController.state.value.assets[index];
+                                return _buildTree(asset, 0);
+                              },
+                              childCount:
+                                  assetsController.state.value.assets.length,
+                            ),
+                          ),
+                        ],
+                      ),
                 _ => _buildLoadingTree(0),
               },
             ),

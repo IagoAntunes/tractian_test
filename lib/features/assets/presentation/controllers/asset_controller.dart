@@ -64,7 +64,7 @@ class AssetController extends GetxController {
           }
           if (typeFilter[0] == 'text') {
             if (!_assetContainsQueryText(asset, typeFilter[1],
-                filterBy: ['name'], shouldPrune: true)) {
+                filterBy: ['name', 'id'], shouldPrune: true)) {
               return false;
             }
           }
@@ -96,6 +96,9 @@ class AssetController extends GetxController {
 
     for (String filter in filterBy ?? []) {
       if (filter == 'name' && asset.name.toLowerCase().contains(query)) {
+        containsQuery = true;
+        shouldKeep = true;
+      } else if (filter == 'id' && asset.id.toLowerCase().contains(query)) {
         containsQuery = true;
         shouldKeep = true;
       }
