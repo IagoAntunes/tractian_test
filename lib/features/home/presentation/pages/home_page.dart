@@ -4,8 +4,10 @@ import 'package:tractian_test/core/widgets/banner_offline_data.dart';
 import 'package:tractian_test/features/home/presentation/controllers/home_controller.dart';
 import 'package:tractian_test/features/home/presentation/states/home_state.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
+import '../../../../core/language/widgets/select_language.dart';
 import '../../../../core/utils/assets_route.dart';
 import '../widgets/status_unit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -28,6 +30,9 @@ class HomePage extends StatelessWidget {
           AssetsRoute.tractianLogo,
           width: 160,
         ),
+        actions: const [
+          SelectLanguageWidget(),
+        ],
         elevation: 0.0,
       ),
       body: Column(
@@ -41,7 +46,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Bem Vindo!",
+                  AppLocalizations.of(context)!.title_welcome,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -49,7 +54,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "3 Unidades encontradas",
+                  "3 ${AppLocalizations.of(context)!.subtitle_units_found}",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -114,7 +119,8 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                             subtitle: Text(
-                              "Jaguar Unit",
+                              AppLocalizations.of(context)!
+                                  .text_unit_information,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,

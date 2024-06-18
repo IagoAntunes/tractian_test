@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tractian_test/core/language/controller/language_controller.dart';
 import 'package:tractian_test/core/services/connectivity/infra/connectivity_impl.dart';
 import 'package:tractian_test/core/services/http/http_service.dart';
 import 'package:tractian_test/core/services/http/i_http_service.dart';
@@ -10,8 +11,9 @@ import '../../core/services/storage/domain/get_storage.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
+    Get.put<IStorage>(GetStorageImp(), permanent: true);
+    Get.put<LanguageController>(LanguageController());
     Get.put<IConnectivity>(Connectivity());
     Get.put<IHttpService>(HttpServiceImp());
-    Get.put<IStorage>(GetStorageImp(), permanent: true);
   }
 }

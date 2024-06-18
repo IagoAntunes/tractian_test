@@ -13,6 +13,7 @@ import '../../../../core/widgets/banner_offline_data.dart';
 import '../widgets/asset_expansion_tile_widget.dart';
 import '../widgets/item_fitler_asset_widget.dart';
 import '../widgets/line_painter_tree.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AssetsPage extends StatefulWidget {
   const AssetsPage({super.key});
@@ -81,7 +82,8 @@ class _AssetsPageState extends State<AssetsPage> {
                 Obx(
                   () => CTextField(
                     controller: searchController,
-                    hintText: 'Buscar Ativo ou Local',
+                    hintText:
+                        AppLocalizations.of(context)!.textfield_search_asset,
                     onChanged: (value) {
                       assetsController.filterByText(value);
                     },
@@ -103,7 +105,8 @@ class _AssetsPageState extends State<AssetsPage> {
                 Wrap(
                   spacing: 8.0,
                   children: [
-                    for (var status in AssetFiltersSensors.statusList)
+                    for (var status
+                        in AssetFiltersSensors.getStatusList(context))
                       Obx(
                         () => ItemFilterAsset(
                           text: status.name,
@@ -141,13 +144,15 @@ class _AssetsPageState extends State<AssetsPage> {
                               size: 48,
                             ),
                             Text(
-                              "Nenhum ativo encontrado",
+                              AppLocalizations.of(context)!
+                                  .text_title_no_assets_found,
                               style: AppStyleText.mediumLg.copyWith(
                                 color: Colors.black,
                               ),
                             ),
                             Text(
-                              "Refaça os filtros e tente novamente",
+                              AppLocalizations.of(context)!
+                                  .text_subtitle_no_assets_found,
                               style: AppStyleText.regularSm.copyWith(
                                 color: Colors.black,
                               ),
@@ -181,7 +186,8 @@ class _AssetsPageState extends State<AssetsPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Ver mais",
+                                    AppLocalizations.of(context)!
+                                        .text_view_more,
                                     style: AppStyleText.mediumSm.copyWith(
                                         color:
                                             AppStyleColors.brandPrimaryDefault),
@@ -260,7 +266,7 @@ class _AssetsPageState extends State<AssetsPage> {
             child: CircularProgressIndicator(),
           ),
           Text(
-            "Carregando...",
+            "${AppLocalizations.of(context)!.text_loading}...",
             style: AppStyleText.mediumSm
                 .copyWith(color: AppStyleColors.brandPrimaryDefault),
           )
