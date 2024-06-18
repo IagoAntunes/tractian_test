@@ -5,6 +5,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tractian_test/settings/style/app_style_text.dart';
 
 import '../../../../core/widgets/qr_code_border.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeView extends StatefulWidget {
   const QrCodeView({super.key});
@@ -72,7 +73,7 @@ class _QrCodeViewState extends State<QrCodeView> {
                   ),
                   Flexible(
                     child: Text(
-                      "Aponte a câmera para o código QR e enquadre nas marcações",
+                      AppLocalizations.of(context)!.text_point_camera_qr,
                       style: AppStyleText.mediumSm.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

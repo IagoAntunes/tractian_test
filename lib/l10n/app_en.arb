@@ -1,0 +1,23 @@
+{
+    "title_welcome": "Welcome",
+    "subtitle_units_found": "Units found",
+    "unit_units_status": "Unit Status",
+    "operating_status": "Operating",
+    "alert_status": "Alert",
+    "no_status_found": "Consult the data to access the status",
+    "text_unit_information": "unit information",
+
+    "textfield_search_asset": "Search asset or location",
+    "item_filter_energy_sensor": "Energy Sensor",
+    "item_filter_critical": "Critical",
+    "item_filter_vibration": "Vibration",
+
+    "text_view_more": "View more",
+    "text_title_no_assets_found": "No assets found",
+    "text_subtitle_no_assets_found": "Redo the filters and try again",
+
+    
+    "text_point_camera_qr": "Point the camera at the QR code and frame it within the markings",
+    "text_loading": "Loading"
+
+}
