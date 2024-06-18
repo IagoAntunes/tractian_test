@@ -200,4 +200,35 @@ class AssetRepository extends IAssetRepository {
 
     return treeLocations;
   }
+
+  void _countStatus(Map<String, dynamic> node, Map<String, int> statusCounts) {
+    var status = node['status'];
+    if (status != null) {
+      if (statusCounts.containsKey(status)) {
+        var count = statusCounts[status];
+        statusCounts[status] = count! + 1;
+      } else {
+        statusCounts[status] = 1;
+      }
+    }
+
+    var children = node['children'];
+    if (children != null) {
+      for (var child in children) {
+        _countStatus(child, statusCounts);
+      }
+    }
+  }
+
+  @override
+  Future<Map<String, int>> getInfoAsset(String nameUnit) async {
+    var results = await _assetDao.getAssets(nameUnit);
+    Map<String, int> statusCounts = {};
+
+    for (var result in results) {
+      _countStatus(result, statusCounts);
+    }
+
+    return statusCounts;
+  }
 }

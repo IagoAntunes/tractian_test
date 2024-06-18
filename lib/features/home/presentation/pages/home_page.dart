@@ -4,8 +4,8 @@ import 'package:tractian_test/core/widgets/banner_offline_data.dart';
 import 'package:tractian_test/features/home/presentation/controllers/home_controller.dart';
 import 'package:tractian_test/features/home/presentation/states/home_state.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
-
 import '../../../../core/utils/assets_route.dart';
+import '../widgets/status_unit.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
               child: Obx(
                 () => ListView.separated(
                   itemCount: homeController.state.value.unities.length,
@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           ListTile(
                             trailing: CircleAvatar(
-                              backgroundColor: AppStyleColors.gray200,
+                              backgroundColor: AppStyleColors.gray100,
                               child: Icon(
                                 Icons.arrow_right,
                                 color: AppStyleColors.platformHeader,
@@ -129,7 +129,10 @@ class HomePage extends StatelessWidget {
                               thickness: 2.0,
                             ),
                           ),
-                          const StatusUnit()
+                          StatusUnit(
+                            nameUnit:
+                                homeController.state.value.unities[index].name,
+                          )
                         ],
                       ),
                     ),
@@ -139,37 +142,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class StatusUnit extends StatelessWidget {
-  const StatusUnit({
-    super.key,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        iconColor: AppStyleColors.platformHeader,
-        collapsedIconColor: AppStyleColors.platformHeader,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Status da unidade",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppStyleColors.gray500,
-              ),
-            ),
-          ],
-        ),
-        children: const [],
       ),
     );
   }
