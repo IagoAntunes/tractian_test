@@ -42,7 +42,7 @@ class _QrCodeViewState extends State<QrCodeView> {
             left: 15,
             child: IconButton(
               onPressed: () {
-                Navigator.pop(context, '656734821f4664001f296973');
+                Navigator.pop(context, null);
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -92,6 +92,7 @@ class _QrCodeViewState extends State<QrCodeView> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+      if (result != null) return;
       setState(() {
         result = scanData;
         Navigator.pop(context, scanData.code);

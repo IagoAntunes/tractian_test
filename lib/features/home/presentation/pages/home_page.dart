@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
           AssetsRoute.tractianLogo,
           width: 160,
         ),
+        elevation: 0.0,
       ),
       body: Column(
         children: [

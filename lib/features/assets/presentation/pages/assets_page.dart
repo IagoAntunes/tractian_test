@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:tractian_test/core/widgets/c_text_field.dart';
 import 'package:tractian_test/features/assets/domain/entities/asset_entity.dart';
 import 'package:tractian_test/features/assets/presentation/controllers/asset_controller.dart';
@@ -131,7 +128,7 @@ class _AssetsPageState extends State<AssetsPage> {
           Expanded(
             child: Obx(
               () => switch (assetsController.state.value) {
-                LoadingAssetsState() => _buildLoadingTree(0),
+                LoadingAssetsState() => _buildLoadingTree(),
                 SuccessAssetsState() => assetsController
                         .state.value.assets.isEmpty
                     ? SizedBox(
@@ -200,7 +197,7 @@ class _AssetsPageState extends State<AssetsPage> {
                           ),
                         ],
                       ),
-                _ => _buildLoadingTree(0),
+                _ => _buildLoadingTree(),
               },
             ),
           ),
@@ -211,7 +208,7 @@ class _AssetsPageState extends State<AssetsPage> {
 
   Widget _buildTree(Asset asset, int depth) {
     if (assetsController.state is LoadingAssetsState) {
-      return _buildLoadingTree(depth);
+      return _buildLoadingTree();
     }
 
     if (asset.children.isEmpty) {
@@ -253,32 +250,10 @@ class _AssetsPageState extends State<AssetsPage> {
     );
   }
 
-  Widget _buildLoadingTree(int depth) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: _buildLineTile(
-        depth: depth,
-        child: Shimmer.fromColors(
-          baseColor: AppStyleColors.gray200,
-          highlightColor: AppStyleColors.gray100,
-          child: Column(
-            children: List.generate(
-              3,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppStyleColors.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  width: double.infinity,
-                  height: 25.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+  Widget _buildLoadingTree() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: CircularProgressIndicator(),
     );
   }
 }
