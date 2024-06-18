@@ -251,9 +251,21 @@ class _AssetsPageState extends State<AssetsPage> {
   }
 
   Widget _buildLoadingTree() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: CircularProgressIndicator(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+          Text(
+            "Carregando...",
+            style: AppStyleText.mediumSm
+                .copyWith(color: AppStyleColors.brandPrimaryDefault),
+          )
+        ],
+      ),
     );
   }
 }
