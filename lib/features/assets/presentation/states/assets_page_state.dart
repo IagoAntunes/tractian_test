@@ -16,5 +16,9 @@ class LoadingAssetsState extends IAssetsState {
 }
 
 class SuccessAssetsState extends IAssetsState {
-  SuccessAssetsState({required super.assets});
+  bool offlineData;
+  SuccessAssetsState({
+    required super.assets,
+    this.offlineData = false,
+  });
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tractian_test/core/widgets/banner_offline_data.dart';
 import 'package:tractian_test/features/home/presentation/controllers/home_controller.dart';
+import 'package:tractian_test/features/home/presentation/states/home_state.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
 
 import '../../../../core/utils/assets_route.dart';
@@ -56,6 +58,13 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          Obx(
+            () => BannerOfflineData(
+              isVisible: homeController.state.value is SuccessHomeState
+                  ? (homeController.state.value as SuccessHomeState).offlineData
+                  : false,
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
@@ -67,7 +76,7 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       Get.toNamed('/assets', arguments: {
-                        'unit': homeController.state.value.unities[index]
+                        'unit': homeController.state.value.unities[index].name
                       });
                     },
                     child: Container(
@@ -94,7 +103,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 Text(
                                   formatUnitName(homeController
-                                      .state.value.unities[index]),
+                                      .state.value.unities[index].name),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -120,51 +129,7 @@ class HomePage extends StatelessWidget {
                               thickness: 2.0,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ExpansionTile(
-                              tilePadding: EdgeInsets.zero,
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Status",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppStyleColors.gray500,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      color: MaterialStateColor.resolveWith(
-                                          (states) {
-                                        if (true) {
-                                          return const Color(
-                                            0XFFebf9f2,
-                                          );
-                                        }
-                                      }),
-                                    ),
-                                    child: const Text(
-                                      "Baixado",
-                                      style: TextStyle(
-                                        color: Color(
-                                          0XFF22ad5b,
-                                        ),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
+                          const StatusUnit()
                         ],
                       ),
                     ),
@@ -174,6 +139,37 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class StatusUnit extends StatelessWidget {
+  const StatusUnit({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        iconColor: AppStyleColors.platformHeader,
+        collapsedIconColor: AppStyleColors.platformHeader,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Status da unidade",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppStyleColors.gray500,
+              ),
+            ),
+          ],
+        ),
+        children: const [],
       ),
     );
   }

@@ -10,6 +10,7 @@ import 'package:tractian_test/features/assets/presentation/utils/filters_sensors
 import 'package:tractian_test/features/assets/presentation/widgets/asset_item.dart';
 import 'package:tractian_test/settings/style/app_style_colors.dart';
 import 'package:tractian_test/settings/style/app_style_text.dart';
+import '../../../../core/widgets/banner_offline_data.dart';
 import '../widgets/asset_expansion_tile_widget.dart';
 import '../widgets/item_fitler_asset_widget.dart';
 import '../widgets/line_painter_tree.dart';
@@ -64,6 +65,14 @@ class _AssetsPageState extends State<AssetsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Obx(
+            () => BannerOfflineData(
+              isVisible: assetsController.state.value is SuccessAssetsState
+                  ? (assetsController.state.value as SuccessAssetsState)
+                      .offlineData
+                  : false,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:tractian_test/features/home/presentation/pages/home_page.dart';
 import 'package:tractian_test/settings/bindings/app_bindings.dart';
 import 'package:tractian_test/settings/theme/app_theme.dart';
@@ -8,8 +9,9 @@ import 'features/assets/presentation/bindings/assets_binding.dart';
 import 'features/assets/presentation/pages/assets_page.dart';
 import 'features/home/presentation/binding/home_binding.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(MyApp());
 }
 
