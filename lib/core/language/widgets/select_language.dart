@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tractian_test/core/language/controller/language_controller.dart';
+import 'package:tractian_test/core/utils/assets_route.dart';
 
 import '../../../../../l10n/l10n.dart';
 
@@ -30,17 +31,23 @@ class _SelectLanguageState extends State<SelectLanguageWidget> {
     return ValueListenableBuilder(
       valueListenable: selectedLanguage,
       builder: (context, value, child) {
-        return Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                controller.changeLocale();
-              },
-              icon: const Icon(
-                Icons.abc,
+        return GestureDetector(
+          onTap: () {
+            controller.changeLocale();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              height: 32,
+              width: 32,
+              child: Image.asset(
+                controller.currentLocale.value.languageCode == 'pt'
+                    ? AssetsRoute.brFLag
+                    : AssetsRoute.enFlag,
+                fit: BoxFit.fill,
               ),
             ),
-          ],
+          ),
         );
       },
     );

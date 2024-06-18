@@ -37,6 +37,7 @@ class _StatusUnitState extends State<StatusUnit> {
         tilePadding: const EdgeInsets.symmetric(horizontal: 8),
         iconColor: AppStyleColors.platformHeader,
         collapsedIconColor: AppStyleColors.platformHeader,
+        childrenPadding: const EdgeInsets.only(bottom: 8, top: 4),
         onExpansionChanged: (value) async {
           if (value) {
             if (_infoUnit.isNotEmpty) return;
@@ -81,7 +82,6 @@ class _StatusUnitState extends State<StatusUnit> {
                         ],
                       )
                     : SizedBox(
-                        height: 64,
                         width: double.infinity,
                         child: Wrap(
                           alignment: WrapAlignment.start,
@@ -144,7 +144,7 @@ class _ItemStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: backgroundColor,
