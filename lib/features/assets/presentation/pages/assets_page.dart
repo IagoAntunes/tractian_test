@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tractian_test/core/widgets/c_text_field.dart';
@@ -156,17 +158,44 @@ class _AssetsPageState extends State<AssetsPage> {
                           ],
                         ),
                       )
-                    : CustomScrollView(
-                        slivers: [
-                          SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount:
+                                  assetsController.state.value.assets.length,
+                              itemBuilder: (context, index) {
                                 var asset =
                                     assetsController.state.value.assets[index];
                                 return _buildTree(asset, 0);
                               },
-                              childCount:
-                                  assetsController.state.value.assets.length,
+                            ),
+                          ),
+                          Visibility(
+                            visible: (assetsController
+                                        .state.value.assets.length !=
+                                    assetsController.originalAssets.length) &&
+                                assetsController.selectedFilters.isEmpty,
+                            child: TextButton(
+                              onPressed: () {
+                                assetsController.changeLimitList();
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Ver mais",
+                                    style: AppStyleText.mediumSm.copyWith(
+                                        color:
+                                            AppStyleColors.brandPrimaryDefault),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Icon(
+                                    Icons.expand_more,
+                                    size: 16,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],

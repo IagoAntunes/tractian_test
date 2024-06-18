@@ -16,6 +16,22 @@ class AssetController extends GetxController {
   List<String> assetStatusFilter = [];
   final RxSet<String> selectedFilters = RxSet<String>();
 
+  int limitList = 50;
+
+  void changeLimitList() {
+    limitList = limitList + 50;
+    List<Asset> aux = [];
+    try {
+      aux = originalAssets.sublist(0, limitList);
+    } on RangeError {
+      aux = List.from(originalAssets);
+    }
+    state.value = SuccessAssetsState(
+      assets: aux,
+      offlineData: (state.value as SuccessAssetsState).offlineData,
+    );
+  }
+
   Future<void> getData() async {
     state.value = LoadingAssetsState(assets: state.value.assets);
     final result = await _assetRepository.getData(nameUnit ?? '');
@@ -23,8 +39,13 @@ class AssetController extends GetxController {
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();
     originalAssets = List.from(list);
+
+    if (list.length > limitList) {
+      list = list.sublist(0, limitList);
+    }
+
     state.value = SuccessAssetsState(
-      assets: originalAssets,
+      assets: list,
       offlineData: result.offlineData,
     );
   }
