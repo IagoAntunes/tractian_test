@@ -23,7 +23,10 @@ class AssetController extends GetxController {
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();
     originalAssets = List.from(list);
-    state.value = SuccessAssetsState(assets: originalAssets);
+    state.value = SuccessAssetsState(
+      assets: originalAssets,
+      offlineData: result.offlineData,
+    );
   }
 
   void onFilterChipSelected(String filter) {

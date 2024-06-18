@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:tractian_test/core/services/connectivity/domain/i_connectivity.dart';
 import 'package:tractian_test/features/assets/domain/adapters/asset_adapter.dart';
 import 'package:tractian_test/features/assets/domain/adapters/localization_adapter.dart';
 import 'package:tractian_test/features/assets/domain/models/asset_model.dart';
@@ -7,19 +10,27 @@ import 'package:tractian_test/features/assets/domain/requests/get_assets_data_re
 import 'package:tractian_test/features/assets/domain/requests/get_locations_request.dart';
 import 'package:tractian_test/features/assets/domain/responses/get_data_response.dart';
 import 'package:tractian_test/features/assets/domain/responses/get_localizations_response.dart';
+import 'package:tractian_test/features/assets/infra/dao/i_asset_dao.dart';
 import 'package:tractian_test/features/assets/infra/datasources/i_asset_datasource.dart';
 
 import '../../domain/responses/get_assets_response.dart';
 
 class AssetRepository extends IAssetRepository {
   AssetRepository({
-    required this.dataSource,
-  });
-  final IAssetDataSource dataSource;
+    required IAssetDataSource dataSource,
+    required IAssetDao assetDao,
+    required IConnectivity connectivity,
+  })  : _assetDao = assetDao,
+        _dataSource = dataSource,
+        _connectivity = connectivity;
+  final IAssetDao _assetDao;
+  final IAssetDataSource _dataSource;
+  final IConnectivity _connectivity;
+
   @override
   Future<GetAssetsResponse> getAssets(String nameUnit) async {
     final result =
-        await dataSource.getAssets(GetAssetsRequest(nameUnit: nameUnit));
+        await _dataSource.getAssets(GetAssetsRequest(nameUnit: nameUnit));
     late GetAssetsResponse response;
     List<AssetModel> listAssets = [];
 
@@ -48,7 +59,7 @@ class AssetRepository extends IAssetRepository {
 
   @override
   Future<GetLocalizationsResponse> getLocalizations(String nameUnit) async {
-    final result = await dataSource
+    final result = await _dataSource
         .getLocalizations(GetLocationsRequest(nameUnit: nameUnit));
     late GetLocalizationsResponse response;
     List<LocalizationModel> listAssets = [];
@@ -78,18 +89,28 @@ class AssetRepository extends IAssetRepository {
 
   @override
   Future<GetDataResponse> getData(String nameUnit) async {
-    var resultsData = await Future.wait([
-      getAssets(nameUnit),
-      getLocalizations(nameUnit),
-    ]);
-    GetAssetsResponse assetsResponse = resultsData[0] as GetAssetsResponse;
-    GetLocalizationsResponse localizationsResponse =
-        resultsData[1] as GetLocalizationsResponse;
-    //var locationsTree = groupLocation(localizationsResponse);
-    var result = groupAssets(assetsResponse, localizationsResponse);
-    return GetDataResponse(
-      listAssets: result,
-    );
+    var hasConnection = await _connectivity.hasConnection;
+    if (hasConnection) {
+      var resultsData = await Future.wait([
+        getAssets(nameUnit),
+        getLocalizations(nameUnit),
+      ]);
+      GetAssetsResponse assetsResponse = resultsData[0] as GetAssetsResponse;
+      GetLocalizationsResponse localizationsResponse =
+          resultsData[1] as GetLocalizationsResponse;
+      //var locationsTree = groupLocation(localizationsResponse);
+      var result = groupAssets(assetsResponse, localizationsResponse);
+      _assetDao.saveAssets(nameUnit, jsonEncode(result));
+      return GetDataResponse(
+        listAssets: result,
+      );
+    } else {
+      var result = await _assetDao.getAssets(nameUnit);
+      return GetDataResponse(
+        listAssets: result,
+        offlineData: true,
+      );
+    }
   }
 
   List<Map<String, dynamic>> groupAssets(GetAssetsResponse assetsResponse,

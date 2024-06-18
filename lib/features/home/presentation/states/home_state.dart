@@ -1,5 +1,7 @@
+import '../../domain/entities/unity_entity.dart';
+
 abstract class IHomeState {
-  List<String> unities;
+  List<UnityEntity> unities;
   IHomeState({required this.unities});
 }
 
@@ -12,7 +14,11 @@ class LoadingHomeState extends IHomeState {
 }
 
 class SuccessHomeState extends IHomeState {
-  SuccessHomeState({required super.unities});
+  bool offlineData;
+  SuccessHomeState({
+    required super.unities,
+    this.offlineData = false,
+  });
 }
 
 class FailureHomeState extends IHomeState {
