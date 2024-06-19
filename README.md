@@ -8,6 +8,10 @@ Os ativos são essenciais para o funcionamento da indústria e podem incluir des
 - Arquitetura: [Arquitetura](#arquitetura)
 - Tecnologias e Ferramentas: [Tecnologias e Ferramentas](#tecnologias-e-ferramentas)
 
+- Video:
+
+https://github.com/IagoAntunes/tractian_test/assets/63758301/d7598d91-8600-4cda-b2d3-12dc5583835a
+
 ### Desafio
 
 📌 **Build a Tree View Application that shows companies Assets.**
