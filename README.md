@@ -4,6 +4,10 @@
 
 Os ativos são essenciais para o funcionamento da indústria e podem incluir desde equipamentos de fabricação até veículos de transporte e sistemas de geração de energia. O gerenciamento e a manutenção adequados são cruciais para garantir que eles continuem a operar de forma eficiente e eficaz. Uma forma prática de visualizar a hierarquia dos ativos é através de uma estrutura em árvore.
 
+- Visualize abaixo o aplicativo: [Imagens e Vídeo](#em-uso--imagens-e-video)
+- Arquitetura: [Arquitetura](#arquitetura)
+- Tecnologias e Ferramentas: [Tecnologias e Ferramentas](#tecnologias-e-ferramentas)
+
 ### Desafio
 
 📌 **Build a Tree View Application that shows companies Assets.**
@@ -28,7 +32,7 @@ A seguir, você encontrará as instruções para instalação, uso e para este p
 
 </details>
 
-## Installation
+## Instalação
 
 <details>
 <summary>Clique para Expandir!</summary>
@@ -164,7 +168,20 @@ Para evitar acoplamento do código a pacotes específicos, foram utilizadas abst
 <details>
 <summary>Clique para Expandir!</summary>
 
-//
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/home_page.png"/>](HomePage)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page.png"/>](AssetsPage)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page_filter_energy.png"/>](AssetsPageFilterEnergy)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page_filter_alert.png"/>](AssetsPageFilterAlert)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page_filter_text.png"/>](AssetsPageFilterAlert)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page_filter_qr.png"/>](AssetsPageFilterQr)
+
+<details>
+<summary>Paginas em Inglês!</summary>
+    
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/home_page_english.png"/>](HomePageEnglish)
+[<img  height="600px" width="285px" alt="Warpnet"  src="https://github.com/IagoAntunes/tractian_test/blob/main/assets/github/assets_page_english.png"/>](AssetsPage)
+    
+</details>
 
 </details>
 
