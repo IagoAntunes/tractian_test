@@ -1,4 +1,6 @@
-# TRACTIAN Test
+# :large_blue_circle:TRACTIAN Test
+
+English version of the documentation: [English Version](https://github.com/IagoAntunes/tractian_test/blob/main/README_en.md)
 
 :iphone::large_blue_circle: Mobile Software Engineer test
 
