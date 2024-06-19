@@ -1,5 +1,7 @@
 # TRACTIAN Test
 
+Versão português da documentação: [Versão em Português](https://github.com/IagoAntunes/tractian_test/blob/main/README.md)
+
 :iphone::large_blue_circle: Mobile Software Engineer test
 
 Assets are essential for the functioning of the industry and can include everything from manufacturing equipment to transport vehicles and power generation systems. Proper management and maintenance are crucial to ensure they continue to operate efficiently and effectively. A practical way to visualize the hierarchy of assets is through a tree structure.
@@ -96,7 +98,7 @@ flutter test
 ## Architecture
 
 <details>
-<summary>Clique para Expandir!</summary>
+<summary>Click to Expand!</summary>
   
 This project uses Clean Architecture to organize the code in a modular and decoupled manner, facilitating system maintenance and evolution. The folder structure is organized as follows:
 
