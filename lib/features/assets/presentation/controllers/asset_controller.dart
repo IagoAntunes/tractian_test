@@ -26,6 +26,7 @@ class AssetController extends GetxController {
     } on RangeError {
       aux = List.from(originalAssets);
     }
+
     state.value = SuccessAssetsState(
       assets: aux,
       offlineData: (state.value as SuccessAssetsState).offlineData,
@@ -38,6 +39,21 @@ class AssetController extends GetxController {
     var list = result.listAssets
         .map((assetJson) => Asset.fromJson(assetJson))
         .toList();
+    list.sort((a, b) {
+      if (a.children.isNotEmpty && b.children.isEmpty) {
+        return -1;
+      } else if (b.children.isNotEmpty && a.children.isEmpty) {
+        return 1;
+      } else if (a.assetType == AssetType.location &&
+          b.assetType != AssetType.location) {
+        return -1;
+      } else if (b.assetType == AssetType.location &&
+          a.assetType != AssetType.location) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     originalAssets = List.from(list);
 
     if (list.length > limitList) {
@@ -74,6 +90,7 @@ class AssetController extends GetxController {
       state.value = SuccessAssetsState(assets: originalAssets);
       return;
     }
+
     List<Asset> filteredAssets =
         List.from(originalAssets.map((asset) => Asset.clone(asset)));
     if (selectedFilters.isNotEmpty) {
