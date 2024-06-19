@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:tractian_test/features/assets/domain/models/localization_model.dart';
 
 class LocalizationAdapter {
@@ -18,10 +16,4 @@ class LocalizationAdapter {
       id: map['id'] as String,
     );
   }
-
-  String toJson(LocalizationModel localization) =>
-      json.encode(toMap(localization));
-
-  static fromJson(String source) =>
-      fromMap(json.decode(source) as Map<String, dynamic>);
 }

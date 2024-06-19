@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tractian_test/core/services/http/i_http_response.dart';
 import 'package:tractian_test/core/services/http/i_http_service.dart';
 
@@ -13,6 +14,9 @@ class HttpServiceImp implements IHttpService {
 
     _dio = Dio(options);
   }
+  @visibleForTesting
+  HttpServiceImp.test(this._dio);
+
   Future<HttpResponse<T>?> _executeRequest<T>(
     Future<Response> Function() executionFunction, {
     Duration? timeOut,
