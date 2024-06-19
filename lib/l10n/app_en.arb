@@ -18,6 +18,7 @@
 
     
     "text_point_camera_qr": "Point the camera at the QR code and frame it within the markings",
-    "text_loading": "Loading"
+    "text_loading": "Loading",
+    "text_offline_mode": "Offline Mode"
 
 }

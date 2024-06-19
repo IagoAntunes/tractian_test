@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../settings/style/app_style_colors.dart';
 import '../../settings/style/app_style_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BannerOfflineData extends StatelessWidget {
   const BannerOfflineData({
@@ -31,7 +32,7 @@ class BannerOfflineData extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  "Modo offline",
+                  AppLocalizations.of(context)!.text_offline_mode,
                   style: AppStyleText.regularSm.copyWith(
                     color: AppStyleColors.gray500,
                     fontWeight: FontWeight.bold,

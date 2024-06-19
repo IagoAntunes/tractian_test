@@ -17,7 +17,8 @@
     "text_subtitle_no_assets_found": "Refaça os filtros e tente novamente",
 
     "text_point_camera_qr": "Aponte a câmera para o código QR e enquadre nas marcações",
-    "text_loading": "Carregando"
+    "text_loading": "Carregando",
+    "text_offline_mode": "Modo Offline"
 
 
 }
