@@ -66,15 +66,6 @@ class AssetController extends GetxController {
     );
   }
 
-  void onFilterChipSelected(String filter) {
-    if (selectedFilters.contains(filter)) {
-      selectedFilters.remove(filter);
-    } else {
-      selectedFilters.add(filter);
-    }
-    applyFilters();
-  }
-
   void addStatusFilter(String status) {
     selectedFilters.add('status_$status');
     applyFilters();

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../settings/style/app_style_colors.dart';
 import '../../../assets/domain/repositories/i_asset_repository.dart';
 import '../states/status_unit_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusUnit extends StatefulWidget {
   const StatusUnit({
@@ -36,6 +37,7 @@ class _StatusUnitState extends State<StatusUnit> {
         tilePadding: const EdgeInsets.symmetric(horizontal: 8),
         iconColor: AppStyleColors.platformHeader,
         collapsedIconColor: AppStyleColors.platformHeader,
+        childrenPadding: const EdgeInsets.only(bottom: 8, top: 4),
         onExpansionChanged: (value) async {
           if (value) {
             if (_infoUnit.isNotEmpty) return;
@@ -48,7 +50,7 @@ class _StatusUnitState extends State<StatusUnit> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Status da Unidade",
+              AppLocalizations.of(context)!.unit_units_status,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -71,7 +73,7 @@ class _StatusUnitState extends State<StatusUnit> {
                             child: Icon(Icons.download_outlined),
                           ),
                           Text(
-                            "Consulte os dados para ter acesso ao status",
+                            AppLocalizations.of(context)!.no_status_found,
                             style: TextStyle(
                               color: AppStyleColors.platformHeader,
                             ),
@@ -80,7 +82,6 @@ class _StatusUnitState extends State<StatusUnit> {
                         ],
                       )
                     : SizedBox(
-                        height: 64,
                         width: double.infinity,
                         child: Wrap(
                           alignment: WrapAlignment.start,
@@ -107,14 +108,14 @@ class _StatusUnitState extends State<StatusUnit> {
           title: state.value.infoUnit[key]!,
           backgroundColor: const Color(0xffeff9f4),
           textColor: const Color(0xff22ad5b),
-          title2: 'Operando',
+          title2: AppLocalizations.of(context)!.operating_status,
         );
       case 'alert':
         return _ItemStatus(
           title: state.value.infoUnit[key]!,
           backgroundColor: const Color(0xfffdeff0),
           textColor: const Color(0xffe53935),
-          title2: 'Alerta',
+          title2: AppLocalizations.of(context)!.alert_status,
         );
 
       default:
@@ -143,7 +144,7 @@ class _ItemStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: backgroundColor,

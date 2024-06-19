@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterSensorStatusModel {
   final String name;
@@ -13,21 +14,21 @@ class FilterSensorStatusModel {
 }
 
 abstract class AssetFiltersSensors {
-  static final statusList = [
-    FilterSensorStatusModel(
-      name: 'Sensor de Energia',
-      icon: Icons.bolt,
-      search: 'energy',
-    ),
-    FilterSensorStatusModel(
-      name: 'Crítico',
-      icon: Icons.error_outline,
-      search: 'alert',
-    ),
-    FilterSensorStatusModel(
-      name: 'Vibração',
-      icon: Icons.vibration_outlined,
-      search: 'vibration',
-    ),
-  ];
+  static getStatusList(BuildContext context) => [
+        FilterSensorStatusModel(
+          name: AppLocalizations.of(context)!.item_filter_energy_sensor,
+          icon: Icons.bolt,
+          search: 'energy',
+        ),
+        FilterSensorStatusModel(
+          name: AppLocalizations.of(context)!.item_filter_critical,
+          icon: Icons.error_outline,
+          search: 'alert',
+        ),
+        FilterSensorStatusModel(
+          name: AppLocalizations.of(context)!.item_filter_vibration,
+          icon: Icons.vibration_outlined,
+          search: 'vibration',
+        ),
+      ];
 }

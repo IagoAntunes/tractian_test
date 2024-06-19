@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:tractian_test/features/assets/domain/models/asset_model.dart';
 
 class AssetAdapter {
@@ -26,9 +24,4 @@ class AssetAdapter {
       id: map['id'] as String,
     );
   }
-
-  static String toJson(AssetModel asset) => json.encode(toMap(asset));
-
-  static fromJson(String source) =>
-      fromMap(json.decode(source) as Map<String, dynamic>);
 }

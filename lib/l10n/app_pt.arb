@@ -1,0 +1,23 @@
+{
+    "title_welcome": "Bem Vindo",
+    "subtitle_units_found": "Unidades encontradas",
+    "unit_units_status": "Status da Unidade",
+    "operating_status": "Operando",
+    "alert_status": "Alerta",
+    "no_status_found": "Consulte os dados para ter acesso ao status",
+    "text_unit_information": "Informações da Unidade",
+
+    "textfield_search_asset": "Buscar ativo ou local",
+    "item_filter_energy_sensor": "Sensor de Energia",
+    "item_filter_critical": "Crítico",
+    "item_filter_vibration": "Vibração",
+
+    "text_view_more": "Ver mais",
+    "text_title_no_assets_found": "Nenhum ativo encontrado",
+    "text_subtitle_no_assets_found": "Refaça os filtros e tente novamente",
+
+    "text_point_camera_qr": "Aponte a câmera para o código QR e enquadre nas marcações",
+    "text_loading": "Carregando"
+
+
+}
