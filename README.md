@@ -67,6 +67,25 @@ To install this project, follow these steps:
 
 </details>
 
+## Testes Unitarios
+
+<details>
+<summary>Clique para Expandir!</summary>
+
+```Coverage é uma métrica que indica quantas linhas de código, instruções, condições ou caminhos do programa são testados pelo conjunto de testes unitários.```
+
+**Coverage:** 81,2%
+
+Os testes de unidade são usados para testar unidades individuais de código. No Flutter, os testes de unidade são escritos usando a biblioteca `flutter_test`, com auxilio de outras bibliotecas [**mocktail**](https://pub.dev/packages/mocktail)
+
+Para executar os testes de unidade, siga estas etapas:
+
+```dart
+flutter test
+```
+
+</details>
+
 ## Arquitetura
 
 <details>
@@ -140,7 +159,7 @@ Para evitar acoplamento do código a pacotes específicos, foram utilizadas abst
 </details>
 </details>
 
-## Em Uso
+## Em Uso | Imagens e Video
 
 <details>
 <summary>Clique para Expandir!</summary>
